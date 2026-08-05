@@ -1,31 +1,31 @@
-# Standalone Direction Prediction Tool
+# CRISPR-evOr-direction-prediction tool
 
 This folder contains a CLI for predicting CRISPR array direction. It is based on a finetuned version of the Carbon-500m model, 
-which was finetuned on the predictions of 
+which was finetuned on the predictions of CRISPR-evOr.
 
 It is intended for inference only.
 
 ## Quick Start
 
-Recommended: create a dedicated Python environment first.
+Recommended: create a dedicated virtual environment first.
 
 Conda:
 
 ```bash
-conda create -n crispr-standalone python=3.12 -y
-conda activate crispr-standalone
-pip install -r Standalone/requirements.txt
+conda create -n crispr-evOr-direction python=3.12 -y
+conda activate ccrispr-evOr-direction
+pip install -r requirements.txt
 ```
 
 For the first run you can test, if everything works on your end with this example array:
 
 ```bash
-python Standalone/predict_direction.py \
-  --input_file Standalone/example_array.json \
+python predict_direction.py \
+  --input_file example_array.json \
   --allow_downloads
 ```
 
-After the first run it can be run without the --allow_downloads flag, as it downloads base model weights to `Standalone/model_params/base_model_cache` and resuses them from there.
+After the first run it can be run without the --allow_downloads flag, as it downloads base model weights to `model_params/base_model_cache` and resuses them from there.
 
 The tool will:
 
@@ -35,19 +35,19 @@ The tool will:
 ## Train/Val Lookup (Trust Signal)
 
 Lookup is optional and runs only when you pass `--lookup`.
-When enabled, the standalone CLI looks up your query array in the bundled train/val DB and reports:
+When enabled, the CLI looks up your query array in the bundled train/val DB and reports:
 
 - exact presence in train/val (if the same array is present)
 - similarity to nearest train/val arrays (if not present)
 
 The lookup uses spacers + repeats for exact match and spacer similarity for nearest-neighbor reporting.
-The lookup DB path is `Standalone/lookup/array_lookup_db.json`.
+The lookup DB path is `lookup/array_lookup_db.json`.
 
 Enable lookup explicitly:
 
 ```bash
-python Standalone/predict_direction.py \
-  --input_file Standalone/example_array.json \
+python predict_direction.py \
+  --input_file example_array.json \
   --lookup
 ```
 
@@ -98,7 +98,7 @@ You can pass Results from CRISPRCasFinder directly, for that only the `result.js
 Example:
 
 ```bash
-python Standalone/predict_direction.py \
+python predict_direction.py \
   --input_file Result_XXX/result.json \
   --ccf
 ```
@@ -106,7 +106,7 @@ python Standalone/predict_direction.py \
 If multiple entries exist, select which one to predict:
 
 ```bash
-python Standalone/predict_direction.py \
+python predict_direction.py \
   --input_file Result_XXX/result.json \
   --ccf \
   --ccf_sequence_index 0 \
@@ -164,7 +164,7 @@ Label mapping:
 ## CLI Reference
 
 ```bash
-python Standalone/predict_direction.py --input_file PATH [options]
+python predict_direction.py --input_file PATH [options]
 ```
 
 Options:
@@ -196,17 +196,17 @@ pip install peft
 Custom JSON:
 
 ```bash
-python Standalone/predict_direction.py \
-  --input_file Standalone/my_array.json
+python predict_direction.py \
+  --input_file my_array.json
 ```
 
 Force CPU and custom result path:
 
 ```bash
-python Standalone/predict_direction.py \
-  --input_file Standalone/my_array.json \
+python predict_direction.py \
+  --input_file my_array.json \
   --cpu \
-  --result_file Standalone/my_array_prediction.json
+  --result_file my_array_prediction.json
 ```
 
 ## Included Assets
@@ -215,9 +215,9 @@ python Standalone/predict_direction.py \
 - LoRA adapter + tokenizer assets: [model_params](model_params)
 - Bundled train/val lookup DB: [lookup/array_lookup_db.json](lookup/array_lookup_db.json)
 
-- If full base weights are already cached in `Standalone/model_params/base_model_cache`, they are reused.
+- If full base weights are already cached in `model_params/base_model_cache`, they are reused.
 - If full weights are missing, the script downloads it from Hugging Face on first run,
-  and stores the weights in `Standalone/model_params/base_model_cache`.
+  and stores the weights in `model_params/base_model_cache`.
 - If adapter files are present (`adapter_config.json` + `adapter_model.safetensors`), LoRA is
   applied automatically on top of the cached base model.
 
