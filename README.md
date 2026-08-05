@@ -32,18 +32,18 @@ The tool will:
 - Print a summary to stdout.
 - Write a JSON file named `prediction_result.json` next to the input file.
 
-## Train/Val Lookup (Trust Signal)
+## Train/Val Lookup
 
 Lookup is optional and runs only when you pass `--lookup`.
 When enabled, the CLI looks up your query array in the bundled train/val DB and reports:
 
 - exact presence in train/val (if the same array is present)
-- similarity to nearest train/val arrays (if not present)
+- similarity to nearest train/val arrays
 
 The lookup uses spacers + repeats for exact match and spacer similarity for nearest-neighbor reporting.
 The lookup DB path is `lookup/array_lookup_db.json`.
 
-Enable lookup explicitly:
+Enable lookup explicitly with `--lookup`:
 
 ```bash
 python predict_direction.py \
