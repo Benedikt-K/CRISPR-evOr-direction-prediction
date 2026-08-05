@@ -13,7 +13,7 @@ Conda:
 
 ```bash
 conda create -n crispr-evOr-direction python=3.12 -y
-conda activate ccrispr-evOr-direction
+conda activate crispr-evOr-direction
 pip install -r requirements.txt
 ```
 
