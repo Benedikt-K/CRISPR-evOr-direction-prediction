@@ -1,0 +1,4 @@
+*.jinja
+prediction_result.json
+model.safetensors
+config.json
